@@ -13,7 +13,6 @@
     "format": "next lint --fix && prettier '**/*.{json,yaml}' --write --ignore-path .gitignore",
     "check-types": "tsc --noEmit --pretty",
     "test": "jest",
-    "commit": "cz",
     "db:generate": "drizzle-kit generate:sqlite",
     "db:migrate": "dotenv -c -- tsx ./scripts/dbMigrate.ts",
     "db:studio": "dotenv -c -- drizzle-kit studio",
@@ -44,8 +43,6 @@
   },
   "devDependencies": {
     "@faker-js/faker": "^8.3.1",
-    "@semantic-release/changelog": "^6.0.3",
-    "@semantic-release/git": "^10.0.1",
     "@storybook/addon-essentials": "^7.6.10",
     "@storybook/addon-interactions": "^7.6.10",
     "@storybook/addon-links": "^7.6.10",
@@ -95,7 +92,6 @@
     "postcss": "^8.4.33",
     "prettier": "^3.2.4",
     "rimraf": "^5.0.5",
-    "semantic-release": "^23.0.0",
     "start-server-and-test": "^2.0.3",
     "storybook": "^7.6.10",
     "tailwindcss": "^3.4.1",
@@ -107,22 +103,6 @@
       "main"
     ],
     "plugins": [
-      [
-        "@semantic-release/commit-analyzer",
-        {
-          "preset": "conventionalcommits"
-        }
-      ],
-      "@semantic-release/release-notes-generator",
-      "@semantic-release/changelog",
-      [
-        "@semantic-release/npm",
-        {
-          "npmPublish": false
-        }
-      ],
-      "@semantic-release/git",
-      "@semantic-release/github"
     ]
   },
   "author": "Ixartz (https://github.com/ixartz)"
