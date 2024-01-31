@@ -78,11 +78,6 @@
         "plugin:jest-dom/recommended"
       ]
     },
-    // Configuration for e2e testing (Playwright)
-    {
-      "files": ["**/*.spec.ts"],
-      "extends": ["plugin:playwright/recommended"]
-    },
     // Configuration for Storybook
     {
       "files": ["*.stories.*"],
