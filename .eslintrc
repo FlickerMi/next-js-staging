@@ -77,19 +77,6 @@
         "plugin:testing-library/react",
         "plugin:jest-dom/recommended"
       ]
-    },
-    // Configuration for Storybook
-    {
-      "files": ["*.stories.*"],
-      "extends": ["plugin:storybook/recommended"],
-      "rules": {
-        "import/no-extraneous-dependencies": [
-          "error",
-          {
-            "devDependencies": true
-          }
-        ]
-      }
     }
   ]
 }
