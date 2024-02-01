@@ -9,18 +9,22 @@ import {
   GuestbookValidation,
 } from '@/validations/GuestbookValidation';
 
+import { insert } from '@/models/ghostbook'
+
 export const POST = async (request: Request) => {
   const json = await request.json();
   const parse = GuestbookValidation.safeParse(json);
-
+  console.log("parse", parse);
   if (!parse.success) {
     return NextResponse.json(parse.error.format(), { status: 422 });
   }
 
-  const guestbook = await db
-    .insert(guestbookSchema)
-    .values(parse.data)
-    .returning();
+  // const guestbook = await db
+  //   .insert(guestbookSchema)
+  //   .values(parse.data)
+  //   .returning();
+
+  const guestbook = await insert(parse.data)
 
   return NextResponse.json({
     id: guestbook[0]?.id,
