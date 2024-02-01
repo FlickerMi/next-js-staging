@@ -5,7 +5,7 @@ import { DeleteGuestbookEntry } from './DeleteGuestbookEntry';
 import { EditableGuestbookEntry } from './EditableGuestbookEntry';
 
 const GuestbookList = async () => {
-  const guestbook = await db.select().from(guestbookSchema).all();
+  const guestbook = await db.select().from(guestbookSchema);
 
   return (
     <div className="mt-5" data-testid="guestbook-list">

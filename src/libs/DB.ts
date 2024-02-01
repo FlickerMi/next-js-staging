@@ -1,13 +1,10 @@
-import { createClient } from '@libsql/client';
-import { drizzle } from 'drizzle-orm/libsql';
-import { migrate } from 'drizzle-orm/libsql/migrator';
+import postgres from "postgres";
+import { drizzle } from 'drizzle-orm/postgres-js';
+import { migrate } from 'drizzle-orm/postgres-js/migrator';
 
 import { Env } from './Env.mjs';
 
-const client = createClient({
-  url: Env.DATABASE_URL,
-  authToken: Env.DATABASE_AUTH_TOKEN,
-});
+const client = postgres(Env.DATABASE_URL, { max: 1 })
 
 export const db = drizzle(client);
 

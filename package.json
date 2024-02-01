@@ -13,7 +13,7 @@
     "format": "next lint --fix && prettier '**/*.{json,yaml}' --write --ignore-path .gitignore",
     "check-types": "tsc --noEmit --pretty",
     "test": "jest",
-    "db:generate": "drizzle-kit generate:sqlite",
+    "db:generate": "drizzle-kit generate:pg",
     "db:migrate": "dotenv -c -- tsx ./scripts/dbMigrate.ts",
     "db:studio": "dotenv -c -- drizzle-kit studio",
     "postbuild": "next-sitemap"
@@ -22,7 +22,6 @@
     "@clerk/localizations": "^1.26.13",
     "@clerk/nextjs": "^4.29.4",
     "@hookform/resolvers": "^3.3.4",
-    "@libsql/client": "^0.3.6",
     "@sentry/nextjs": "^7.94.1",
     "@spotlightjs/spotlight": "^1.2.7",
     "@t3-oss/env-nextjs": "^0.7.3",
@@ -30,6 +29,7 @@
     "next": "^14.1.0",
     "next-intl": "^3.4.5",
     "next-sitemap": "^4.2.3",
+    "postgres": "^3.4.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.49.3",
@@ -88,8 +88,7 @@
     "branches": [
       "main"
     ],
-    "plugins": [
-    ]
+    "plugins": []
   },
   "author": "Ixartz (https://github.com/ixartz)"
 }

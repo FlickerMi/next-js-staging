@@ -1,14 +1,16 @@
 import { sql } from 'drizzle-orm';
-import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
+import { integer, serial, pgTable, text, timestamp, pgSchema } from 'drizzle-orm/pg-core';
 
-export const guestbookSchema = sqliteTable('guestbook', {
-  id: integer('id').primaryKey(),
+export const authSchema = pgSchema('s_auth');
+
+export const guestbookSchema = authSchema.table('guestbook', {
+  id: serial('id').primaryKey(),
   username: text('username').notNull(),
   body: text('body').notNull(),
-  createdAt: integer('created_at', { mode: 'timestamp' }).default(
-    sql`(strftime('%s', 'now'))`,
+  createdAt: timestamp('created_at').default(
+    sql`CURRENT_TIMESTAMP`,
   ),
-  updatedAt: integer('updated_at', { mode: 'timestamp' }).default(
-    sql`(strftime('%s', 'now'))`,
+  updatedAt: timestamp('updated_at').default(
+    sql`CURRENT_TIMESTAMP`,
   ),
 });

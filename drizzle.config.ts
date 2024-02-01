@@ -4,8 +4,10 @@ import type { Config } from 'drizzle-kit';
 export default {
   out: './migrations',
   schema: './src/models/Schema.ts',
-  driver: 'libsql',
+  driver: 'pg',
   dbCredentials: {
-    url: process.env.DATABASE_URL ?? '',
+    connectionString: process.env.DATABASE_URL ?? '',
   },
+  verbose: true,
+  strict: true,
 } satisfies Config;

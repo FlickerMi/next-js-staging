@@ -1,12 +1,12 @@
 {
   "version": "5",
-  "dialect": "sqlite",
+  "dialect": "pg",
   "entries": [
     {
       "idx": 0,
       "version": "5",
-      "when": 1693571350622,
-      "tag": "0000_blushing_warhawk",
+      "when": 1706798162359,
+      "tag": "0000_broad_speed_demon",
       "breakpoints": true
     }
   ]

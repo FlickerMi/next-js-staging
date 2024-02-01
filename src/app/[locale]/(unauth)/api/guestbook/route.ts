@@ -39,10 +39,9 @@ export const PUT = async (request: Request) => {
     .update(guestbookSchema)
     .set({
       ...parse.data,
-      updatedAt: sql`(strftime('%s', 'now'))`,
+      updatedAt: sql`CURRENT_TIMESTAMP`,
     })
-    .where(eq(guestbookSchema.id, parse.data.id))
-    .run();
+    .where(eq(guestbookSchema.id, parse.data.id));
 
   return NextResponse.json({});
 };
@@ -57,8 +56,7 @@ export const DELETE = async (request: Request) => {
 
   await db
     .delete(guestbookSchema)
-    .where(eq(guestbookSchema.id, parse.data.id))
-    .run();
+    .where(eq(guestbookSchema.id, parse.data.id));
 
   return NextResponse.json({});
 };
