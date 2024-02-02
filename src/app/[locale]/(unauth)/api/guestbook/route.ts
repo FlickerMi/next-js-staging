@@ -9,7 +9,7 @@ import {
   GuestbookValidation,
 } from '@/validations/GuestbookValidation';
 
-import { insert } from '@/models/ghostbook'
+import { insert, update } from '@/models/ghostbook'
 
 export const POST = async (request: Request) => {
   const json = await request.json();
@@ -39,14 +39,15 @@ export const PUT = async (request: Request) => {
     return NextResponse.json(parse.error.format(), { status: 422 });
   }
 
-  await db
-    .update(guestbookSchema)
-    .set({
-      ...parse.data,
-      updatedAt: sql`CURRENT_TIMESTAMP`,
-    })
-    .where(eq(guestbookSchema.id, parse.data.id));
+  // await db
+  //   .update(guestbookSchema)
+  //   .set({
+  //     ...parse.data,
+  //     updatedAt: sql`CURRENT_TIMESTAMP`,
+  //   })
+  //   .where(eq(guestbookSchema.id, parse.data.id));
 
+  const guestbook = await update(parse.data)
   return NextResponse.json({});
 };
 

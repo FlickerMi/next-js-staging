@@ -4,7 +4,7 @@ import { migrate } from 'drizzle-orm/postgres-js/migrator';
 
 import { Env } from './Env.mjs';
 
-const client = postgres(Env.DATABASE_URL, { max: 1 })
+const client = postgres(Env.DATABASE_URL, { max: 1, onnotice: () => {} })
 
 export const db = drizzle(client);
 
