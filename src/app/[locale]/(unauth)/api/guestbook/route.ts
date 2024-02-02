@@ -1,15 +1,13 @@
-import { eq, sql } from 'drizzle-orm';
 import { NextResponse } from 'next/server';
 
-import { db } from '@/libs/DB';
-import { guestbookSchema } from '@/models/Schema';
 import {
   DeleteGuestbookValidation,
   EditGuestbookValidation,
   GuestbookValidation,
 } from '@/validations/GuestbookValidation';
 
-import { insert, update } from '@/models/ghostbook'
+import { insert, update, deleteById, findAll } from '@/models/ghostbook'
+import { FindingGhostbook } from '@/types/guestbook'
 
 export const POST = async (request: Request) => {
   const json = await request.json();
@@ -51,6 +49,20 @@ export const PUT = async (request: Request) => {
   return NextResponse.json({});
 };
 
+export const GET = async (request: Request, context: { params: any }) => {
+  const { searchParams } = new URL(request.url)
+  console.log("parse", searchParams);
+  // 初始化 params 对象，并断言为有索引签名的类型
+  const params: Partial<FindingGhostbook> & Record<string, string | undefined> = {};
+  searchParams.forEach((value, key) => {
+    params[key] = value;
+  });
+  const guestbook = await findAll(params)
+  return NextResponse.json({
+    item: guestbook
+  });
+};
+
 export const DELETE = async (request: Request) => {
   const json = await request.json();
   const parse = DeleteGuestbookValidation.safeParse(json);
@@ -59,9 +71,6 @@ export const DELETE = async (request: Request) => {
     return NextResponse.json(parse.error.format(), { status: 422 });
   }
 
-  await db
-    .delete(guestbookSchema)
-    .where(eq(guestbookSchema.id, parse.data.id));
-
+  await deleteById(parse.data.id)
   return NextResponse.json({});
 };

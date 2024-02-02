@@ -1,11 +1,11 @@
-import { db } from '@/libs/DB';
-import { guestbookSchema } from '@/models/Schema';
+import { findAll } from '@/models/ghostbook'
 
 import { DeleteGuestbookEntry } from './DeleteGuestbookEntry';
 import { EditableGuestbookEntry } from './EditableGuestbookEntry';
 
 const GuestbookList = async () => {
-  const guestbook = await db.select().from(guestbookSchema);
+  // const guestbook = await db.select().from(guestbookSchema);
+  const guestbook = await findAll({page: 1, size: 100});
 
   return (
     <div className="mt-5" data-testid="guestbook-list">
