@@ -1,10 +1,10 @@
-import { page } from '@/models/ghostbook'
+import { page } from '@/models/ghostbook';
 
 import { DeleteGuestbookEntry } from './DeleteGuestbookEntry';
 import { EditableGuestbookEntry } from './EditableGuestbookEntry';
 
 const GuestbookList = async () => {
-  const guestbook = await page({page: 1, size: 999});
+  const guestbook = await page({ page: 1, size: 999 });
 
   return (
     <div className="mt-5" data-testid="guestbook-list">

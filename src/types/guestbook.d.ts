@@ -6,7 +6,7 @@ export interface Ghostbook {
   updatedAt?: long;
 }
 
-export interface FindingGhostbook{
+export interface FindingGhostbook {
   page?: number;
   size?: number;
   sort?: string;
