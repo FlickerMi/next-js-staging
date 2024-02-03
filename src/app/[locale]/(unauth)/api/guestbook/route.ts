@@ -32,7 +32,8 @@ export const PUT = async (request: Request) => {
   return respData(guestbook);
 };
 
-export const GET = async (request: Request, context: { params: any }) => {
+// export const GET = async (request: Request, context: { params: any }) => {
+export const GET = async (request: Request) => {
   const { searchParams } = new URL(request.url)
   console.log("parse", searchParams);
   // 初始化 params 对象，并断言为有索引签名的类型
