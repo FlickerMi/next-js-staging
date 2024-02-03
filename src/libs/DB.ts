@@ -36,7 +36,7 @@ export function withPagination<T extends PgSelect>(
     const [sortBy, sortOrder] = sort.split(',');
     if (sortBy && sortOrder) {
       // 确保排序方式是 'asc' 或 'desc'
-      const order = sortOrder.toLowerCase() === 'asc' ? 'ASC' : 'DESC';
+      const order = (sortOrder || "").toLowerCase() === 'asc' ? 'ASC' : 'DESC';
       // 使用原始 SQL 片段来避免对具体模型的依赖
       // 对用户输入进行基本的校验来防止 SQL 注入
       const orderClause = sql`${sql.raw(sortBy)} ${sql.raw(order)}`;
