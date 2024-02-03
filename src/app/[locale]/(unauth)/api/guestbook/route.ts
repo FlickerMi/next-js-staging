@@ -6,47 +6,30 @@ import {
   GuestbookValidation,
 } from '@/validations/GuestbookValidation';
 
-import { insert, update, deleteById, findAll } from '@/models/ghostbook'
+import { insert, update, deleteById, page } from '@/models/ghostbook'
 import { FindingGhostbook } from '@/types/guestbook'
+import { respDataPage, respData, respOk, respErr, printFirstValidationError } from '@/libs/resp'
 
 export const POST = async (request: Request) => {
   const json = await request.json();
   const parse = GuestbookValidation.safeParse(json);
-  console.log("parse", parse);
   if (!parse.success) {
-    return NextResponse.json(parse.error.format(), { status: 422 });
+    return respErr(printFirstValidationError(parse.error.formErrors.fieldErrors), 422)
   }
 
-  // const guestbook = await db
-  //   .insert(guestbookSchema)
-  //   .values(parse.data)
-  //   .returning();
-
   const guestbook = await insert(parse.data)
-
-  return NextResponse.json({
-    id: guestbook[0]?.id,
-  });
+  return respData(guestbook);
 };
 
 export const PUT = async (request: Request) => {
   const json = await request.json();
   const parse = EditGuestbookValidation.safeParse(json);
-
   if (!parse.success) {
-    return NextResponse.json(parse.error.format(), { status: 422 });
+    return respErr(printFirstValidationError(parse.error.formErrors.fieldErrors), 422)
   }
 
-  // await db
-  //   .update(guestbookSchema)
-  //   .set({
-  //     ...parse.data,
-  //     updatedAt: sql`CURRENT_TIMESTAMP`,
-  //   })
-  //   .where(eq(guestbookSchema.id, parse.data.id));
-
   const guestbook = await update(parse.data)
-  return NextResponse.json({});
+  return respData(guestbook);
 };
 
 export const GET = async (request: Request, context: { params: any }) => {
@@ -57,10 +40,9 @@ export const GET = async (request: Request, context: { params: any }) => {
   searchParams.forEach((value, key) => {
     params[key] = value;
   });
-  const guestbook = await findAll(params)
-  return NextResponse.json({
-    item: guestbook
-  });
+  const guestbook = await page(params)
+
+  return respDataPage(guestbook.data, guestbook.total);
 };
 
 export const DELETE = async (request: Request) => {
@@ -72,5 +54,5 @@ export const DELETE = async (request: Request) => {
   }
 
   await deleteById(parse.data.id)
-  return NextResponse.json({});
+  return respOk();
 };

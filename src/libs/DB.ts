@@ -1,7 +1,7 @@
 import postgres from "postgres";
 import { drizzle } from 'drizzle-orm/postgres-js';
 import { migrate } from 'drizzle-orm/postgres-js/migrator';
-import { and, eq, sql, or, desc } from 'drizzle-orm';
+import { sql } from 'drizzle-orm';
 import { PgSelect } from 'drizzle-orm/pg-core';
 
 import { Env } from './Env.mjs';
@@ -23,11 +23,12 @@ export function withPagination<T extends PgSelect>(
   pageSize: number = 10,
   sort?: string
 ) {
+  let query = qb;
   // 确保页数和页面大小的合理性
   const page = Math.max(1, pageNum) - 1;
   const size = Math.min(Math.max(1, pageSize), 9999);
   console.log("page: " + page + ", size: " + size)
-  let query = qb.limit(size).offset(page * size)
+  query = query.limit(size).offset(page * size)
 
   // 处理排序
   console.log("sort", sort)
@@ -42,6 +43,7 @@ export function withPagination<T extends PgSelect>(
       query = query.orderBy(orderClause);
     }
   }
+
   console.log("Exec SQL:", query.toSQL());
   return query;
 }

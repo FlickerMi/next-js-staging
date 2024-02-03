@@ -1,8 +1,7 @@
 import { Ghostbook, FindingGhostbook } from "@/types/guestbook";
 import { db, withPagination } from '@/libs/DB';
 import { guestbookSchema } from '@/models/Schema';
-import { and, eq, sql, or, like } from 'drizzle-orm';
-import { QueryBuilder } from 'drizzle-orm/pg-core';
+import { and, eq, sql, or, like, count } from 'drizzle-orm';
 
 export async function insert(ghostbook: Ghostbook) {
   console.log("ghostbook", ghostbook)
@@ -11,7 +10,7 @@ export async function insert(ghostbook: Ghostbook) {
     .values(ghostbook)
     .returning();
   console.log("insert result", res);
-  return res;
+  return res[0];
 }
 
 export async function update(ghostbook: Ghostbook) {
@@ -25,7 +24,7 @@ export async function update(ghostbook: Ghostbook) {
     .where(eq(guestbookSchema.id, ghostbook.id!!))
     .returning();
   console.log("update result", res);
-  return res;
+  return res[0];
 }
 
 export async function findById(id: number) {
@@ -33,13 +32,12 @@ export async function findById(id: number) {
     .from(guestbookSchema)
     .where(eq(guestbookSchema.id, id));
   console.log("findById result", res);
-  return res;
+  return res ? res[0] : null;
 }
 
-export async function findAll(
+export async function page(
   finding: FindingGhostbook
 ) {
-  console.log("finding.sort:", finding.sort)
   console.log("finding", finding)
   const conditions = [];
   if (finding.id != null) {
@@ -57,9 +55,12 @@ export async function findAll(
   const query = db.select().from(guestbookSchema)
     .where(and(...conditions))
     .$dynamic();
+
+  const totalResult = await db.select({ value: count(guestbookSchema.id) }).from(guestbookSchema);
+  const total = totalResult[0]?.value ?? 0;
   
-  const res = await withPagination(query, finding.page, finding.size, finding.sort);
-  return res;
+  const data = await withPagination(query, finding.page, finding.size, finding.sort);
+  return {data, total};
 }
 
 export async function deleteById(id: number) {
