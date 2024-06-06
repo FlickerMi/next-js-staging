@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import { getTranslations } from 'next-intl/server';
+import { Button } from "@/components/ui/button"
 
 import { Sponsors } from '@/components/Sponsors';
 
@@ -26,6 +27,8 @@ export default function Index() {
         unoptimized
       />
       GitHub repository:{' '}
+      <Button>Click me</Button>
+      
       <a href="https://github.com/ixartz/Next-js-Boilerplate">
         NextJS Boilerplate
       </a>

@@ -3,6 +3,7 @@ import { useTranslations } from 'next-intl';
 
 import LocaleSwitcher from '@/components/LocaleSwitcher';
 import { BaseTemplate } from '@/templates/BaseTemplate';
+import { ModeToggle } from '@/components/CheckTheme'
 
 export default function Layout(props: { children: React.ReactNode }) {
   const t = useTranslations('RootLayout');
@@ -75,6 +76,9 @@ export default function Layout(props: { children: React.ReactNode }) {
 
           <li>
             <LocaleSwitcher />
+          </li>
+          <li>
+            <ModeToggle />
           </li>
         </>
       }
